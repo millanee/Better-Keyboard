@@ -26,6 +26,22 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
     });
   }
 
+  Size getKeySize(String letter) {
+    const letterSize = Size(35, 40);
+    const spaceSize = Size(150, 40);
+    const specialSize = Size(70, 40);
+
+    if (letter == ' ') {
+      return spaceSize;
+    } else if (letter == '⌫' || letter == '⇧') {
+      return specialSize;
+    } else if (letter == ',' || letter == '.') {
+      return letterSize;
+    } else {
+      return letterSize;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final isLandscape =
@@ -39,7 +55,7 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
                 children: [
                   // left side: text (innput)
                   Expanded(
-                    flex: 3,
+                    flex: 7,
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
@@ -65,7 +81,7 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
                   ),
                   const VerticalDivider(width: 1),
                   // Right side: keyboard
-                  Expanded(flex: 2, child: buildKeyboard()),
+                  Expanded(flex: 3, child: buildKeyboard()),
                 ],
               )
               : const Center(
@@ -93,36 +109,41 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
   }
 
   Widget buildKeyboard() {
-    const keys = [
-      ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
-      ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
-      ['z', 'x', 'c', 'v', 'b', 'n', 'm', ';', ':'],
-      ['⇧', '⌫', ' '],
+    // const keys = [
+    //   ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
+    //   ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
+    //   ['z', 'x', 'c', 'v', 'b', 'n', 'm'],
+    //   ['⇧', ',', ' ', '.', '⌫'],
+    // ];
+
+    const columns = [
+      ['p', 'o', 'i', 'u', 'y', 't', 'r', 'e', 'w', 'q'],
+      ['l', 'k', 'j', 'h', 'g', 'f', 'd', 's', 'a'],
+      ['m', 'n', 'b', 'v', 'c', 'x', 'z'],
+      ['⌫', '.', ' ', ',', '⇧'],
     ];
 
-    return Transform.rotate(
-      angle: -pi / 2,
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          return Container(
-            width: constraints.maxHeight,
-            height: constraints.maxWidth,
-            color: Colors.grey[100],
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children:
-                  keys.map((row) {
-                    return Expanded(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: row.map(buildKey).toList(),
-                      ),
-                    );
-                  }).toList(),
-            ),
-          );
-        },
-      ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Container(
+          width: constraints.maxWidth,
+          height: constraints.maxHeight,
+          color: Colors.grey[100],
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children:
+                columns.map((column) {
+                  return SizedBox(
+                    width: 50,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: column.map(buildKey).toList(),
+                    ),
+                  );
+                }).toList(),
+          ),
+        );
+      },
     );
   }
 
@@ -137,11 +158,15 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
       displayLetter = letter.toUpperCase();
     }
 
-    return Expanded(
-      child: AspectRatio(
-        aspectRatio: 1,
-        child: Padding(
-          padding: const EdgeInsets.all(2.0),
+    final keySize = getKeySize(letter);
+
+    return Padding(
+      padding: const EdgeInsets.all(2.0),
+      child: SizedBox(
+        width: keySize.height,
+        height: keySize.width,
+        child: RotatedBox(
+          quarterTurns: 3, // -90 degrees
           child: ElevatedButton(
             onPressed: () {
               setState(() {
