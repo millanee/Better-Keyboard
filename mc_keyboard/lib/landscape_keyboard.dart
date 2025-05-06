@@ -12,7 +12,7 @@ class LandscapeTypingScreen extends StatefulWidget {
 
 class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
   final String templateText =
-      'This text needs to be typed by the participants.';
+      'This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants.';
   String typedText = '';
   bool isShiftActive = false; // shift key state
 
@@ -27,6 +27,22 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
     });
   }
 
+  Size getKeySize(String letter) {
+    const letterSize = Size(35, 40);
+    const spaceSize = Size(300, 40);
+    const specialSize = Size(55, 40);
+
+    if (letter == ' ') {
+      return spaceSize;
+    } else if (letter == '⌫' || letter == '⇧') {
+      return specialSize;
+    } else if (letter == ',' || letter == '.') {
+      return letterSize;
+    } else {
+      return letterSize;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final isLandscape =
@@ -36,45 +52,54 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
       body: Stack(
         children: [
           isLandscape
-              ? Row(
+              ? Column(
                 children: [
                   // left side: text (innput)
                   Expanded(
                     flex: 3,
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            templateText,
-                            style: const TextStyle(fontSize: 20),
-                          ),
-                          const SizedBox(height: 20),
-                          const Divider(),
-                          const SizedBox(height: 10),
-                          Text(
-                            typedText,
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.grey[700],
-                            ),
-                          ),
-                        ],
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          templateText,
+                          style: const TextStyle(fontSize: 24),
+                        ),
                       ),
                     ),
                   ),
-                  const VerticalDivider(width: 1),
-                  // Right side: keyboard
-                  Expanded(flex: 2, child: buildKeyboard()),
+                  Divider(height: 1),
+                  Expanded(
+                    flex: 3,
+                    child: Row(
+                      children: [
+                        // Left bottom -> typed text
+                        Expanded(
+                          flex: 2,
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Align(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                typedText,
+                                style: const TextStyle(fontSize: 24),
+                              ),
+                            ),
+                          ),
+                        ),
+                        // Right bottom -> keyboard
+                        Expanded(flex: 2, child: buildKeyboard()),
+                      ],
+                    ),
+                  ),
                 ],
               )
               : const Center(
                 child: Text("Please rotate your phone to landscape mode."),
               ),
           Positioned(
-            left: 10,
-            bottom: 10,
+            right: 10,
+            top: 150,
             child: FloatingActionButton(
               mini: true,
               onPressed: () {
@@ -97,33 +122,30 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
     const keys = [
       ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
       ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
-      ['z', 'x', 'c', 'v', 'b', 'n', 'm', ';', ':'],
-      ['⇧', '⌫', ' '],
+      ['⇧', 'z', 'x', 'c', 'v', 'b', 'n', 'm', '⌫'],
+      [';', ' ', ':'],
     ];
 
-    return Transform.rotate(
-      angle: -pi / 2,
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          return Container(
-            width: constraints.maxHeight,
-            height: constraints.maxWidth,
-            color: Colors.grey[100],
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children:
-                  keys.map((row) {
-                    return Expanded(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: row.map(buildKey).toList(),
-                      ),
-                    );
-                  }).toList(),
-            ),
-          );
-        },
-      ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Container(
+          width: constraints.maxHeight,
+          height: constraints.maxWidth,
+          color: Colors.grey[100],
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children:
+                keys.map((row) {
+                  return Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: row.map(buildKey).toList(),
+                    ),
+                  );
+                }).toList(),
+          ),
+        );
+      },
     );
   }
 
@@ -138,45 +160,40 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
       displayLetter = letter.toUpperCase();
     }
 
-    return Expanded(
-      child: AspectRatio(
-        aspectRatio: 1,
-        child: Padding(
-          padding: const EdgeInsets.all(2.0),
-          child: ElevatedButton(
-            onPressed: () {
-              setState(() {
-                if (isShift) {
-                  isShiftActive = !isShiftActive;
-                } else if (isBackspace) {
-                  if (typedText.isNotEmpty) {
-                    typedText = typedText.substring(0, typedText.length - 1);
-                  }
-                } else {
-                  onKeyPressed(isSpace ? ' ' : letter);
+    final keySize = getKeySize(letter);
+
+    return Padding(
+      padding: const EdgeInsets.all(2.0),
+      child: SizedBox(
+        width: keySize.width,
+        height: keySize.height,
+        child: ElevatedButton(
+          onPressed: () {
+            setState(() {
+              if (isShift) {
+                isShiftActive = !isShiftActive;
+              } else if (isBackspace) {
+                if (typedText.isNotEmpty) {
+                  typedText = typedText.substring(0, typedText.length - 1);
                 }
-              });
-            },
-            style: ElevatedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
-              padding: EdgeInsets.zero,
-              backgroundColor:
-                  isShift && isShiftActive ? Colors.blue : Colors.white,
-              foregroundColor: Colors.black,
-              elevation: 2,
+              } else {
+                onKeyPressed(isSpace ? ' ' : letter);
+              }
+            });
+          },
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
             ),
-            child: Transform.rotate(
-              angle: pi / 2,
-              child: FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Text(
-                  displayLetter,
-                  style: const TextStyle(fontSize: 20),
-                ),
-              ),
-            ),
+            padding: EdgeInsets.zero,
+            backgroundColor:
+                isShift && isShiftActive ? Colors.blue : Colors.white,
+            foregroundColor: Colors.black,
+            elevation: 2,
+          ),
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(displayLetter, style: const TextStyle(fontSize: 20)),
           ),
         ),
       ),
