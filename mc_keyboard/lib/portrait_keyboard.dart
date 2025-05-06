@@ -11,7 +11,8 @@ class PortraitTypingScreen extends StatefulWidget {
 }
 
 class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
-  final String templateText = 'This is the second screen.';
+  final String templateText =
+      'This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants.';
   String typedText = '';
   bool isShiftActive = false; // shift key state
 
@@ -68,11 +69,23 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
                           const SizedBox(height: 20),
                           const Divider(),
                           const SizedBox(height: 10),
-                          Text(
-                            typedText,
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.grey[700],
+                          Expanded(
+                            flex: 2,
+                            child: Container(
+                              child: Align(
+                                alignment: Alignment.topLeft,
+                                child: SingleChildScrollView(
+                                  reverse: true,
+                                  padding: EdgeInsets.all(4.0),
+                                  child: Text(
+                                    typedText,
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.grey[700],
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
                         ],
