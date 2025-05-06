@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
 
 import 'package:mc_keyboard/portrait_keyboard.dart';
 
@@ -76,13 +75,16 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
                         // Left bottom -> typed text
                         Expanded(
                           flex: 2,
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
+                          child: Container(
                             child: Align(
                               alignment: Alignment.topLeft,
-                              child: Text(
-                                typedText,
-                                style: const TextStyle(fontSize: 24),
+                              child: SingleChildScrollView(
+                                reverse: true,
+                                padding: const EdgeInsets.all(4.0),
+                                child: Text(
+                                  typedText,
+                                  style: const TextStyle(fontSize: 24),
+                                ),
                               ),
                             ),
                           ),
