@@ -28,8 +28,8 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
 
   Size getKeySize(String letter) {
     const letterSize = Size(35, 40);
-    const spaceSize = Size(150, 40);
-    const specialSize = Size(70, 40);
+    const spaceSize = Size(250, 40);
+    const specialSize = Size(55, 100);
 
     if (letter == ' ') {
       return spaceSize;
@@ -119,8 +119,8 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
     const columns = [
       ['p', 'o', 'i', 'u', 'y', 't', 'r', 'e', 'w', 'q'],
       ['l', 'k', 'j', 'h', 'g', 'f', 'd', 's', 'a'],
-      ['m', 'n', 'b', 'v', 'c', 'x', 'z'],
-      ['⌫', '.', ' ', ',', '⇧'],
+      ['⌫', 'm', 'n', 'b', 'v', 'c', 'x', 'z', '⇧'],
+      ['.', ' ', ','],
     ];
 
     return LayoutBuilder(
