@@ -27,9 +27,18 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
   }
 
   Size getKeySize(String letter) {
-    const letterSize = Size(35, 40);
-    const spaceSize = Size(300, 40);
-    const specialSize = Size(55, 40);
+    var letterSize = Size(
+      MediaQuery.sizeOf(context).height * 0.065,
+      MediaQuery.sizeOf(context).width * 0.038,
+    );
+    var spaceSize = Size(
+      MediaQuery.sizeOf(context).height * 0.55,
+      MediaQuery.sizeOf(context).width * 0.038,
+    );
+    var specialSize = Size(
+      MediaQuery.sizeOf(context).height * 0.1,
+      MediaQuery.sizeOf(context).width * 0.038,
+    );
 
     if (letter == ' ') {
       return spaceSize;
@@ -69,12 +78,12 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
                   ),
                   Divider(height: 1),
                   Expanded(
-                    flex: 3,
+                    flex: 2,
                     child: Row(
                       children: [
                         // Left bottom -> typed text
                         Expanded(
-                          flex: 2,
+                          flex: 4,
                           child: Container(
                             child: Align(
                               alignment: Alignment.topLeft,
@@ -91,7 +100,11 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
                         ),
                         // Right bottom -> keyboard
                         const VerticalDivider(width: 10),
-                        Expanded(flex: 2, child: buildKeyboard()),
+                        SizedBox(
+                          width: 0.8 * MediaQuery.sizeOf(context).height,
+                          height: MediaQuery.sizeOf(context).width * 0.30,
+                          child: buildKeyboard(),
+                        ),
                       ],
                     ),
                   ),
