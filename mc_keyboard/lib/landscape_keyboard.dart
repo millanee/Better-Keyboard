@@ -90,6 +90,7 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
                           ),
                         ),
                         // Right bottom -> keyboard
+                        const VerticalDivider(width: 10),
                         Expanded(flex: 2, child: buildKeyboard()),
                       ],
                     ),
