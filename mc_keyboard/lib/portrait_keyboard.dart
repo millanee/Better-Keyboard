@@ -56,7 +56,7 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
                 children: [
                   // left side: text (innput)
                   Expanded(
-                    flex: 7,
+                    flex: 8,
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
@@ -94,7 +94,13 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
                   ),
                   const VerticalDivider(width: 1),
                   // Right side: keyboard
-                  Expanded(flex: 3, child: buildKeyboard()),
+                  Expanded(
+                    flex: 3,
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: 30.0, top: 30.0),
+                      child: buildKeyboard(),
+                    ),
+                  ),
                 ],
               )
               : const Center(
