@@ -15,9 +15,12 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
   String typedText = '';
   bool isShiftActive = false; // shift key state
   bool isFirstKeyPressed = true;
+  bool disableKeys = false;
+  bool enableBackspaceOnly = false;
   DateTime? startTime;
   DateTime? endTime;
   bool showPopup = false;
+  int backspaceCount = 0;
 
   void onKeyPressed(String letter) {
     setState(() {
@@ -26,15 +29,23 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
         isFirstKeyPressed = false;
       }
       if (isShiftActive) {
-        typedText += letter.toUpperCase();
+        letter = letter.toUpperCase();
+        typedText += letter;
         isShiftActive = false; // turn off shift after one letter was pressed
+        debugPrint(typedText);
       } else {
         typedText += letter;
-        if (typedText.length == templateText.length &&
-            letter == templateText[templateText.length - 1]) {
-          endTime = DateTime.now();
-          showPopup = true;
-        }
+      }
+      if (letter != templateText[typedText.length - 1]) {
+        disableKeys = true;
+        enableBackspaceOnly = true;
+        debugPrint(typedText + " and " + templateText[typedText.length - 1]);
+        // disable all keys and enable backspace
+      }
+      if (typedText.length == templateText.length &&
+          letter == templateText[templateText.length - 1]) {
+        endTime = DateTime.now();
+        showPopup = true;
       }
     });
   }
@@ -79,9 +90,9 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
                 child: ListBody(
                   children: <Widget>[
                     Text(
-                      'Time tracked: ${endTime!.difference(startTime!).inMilliseconds} ms',
+                      'Time tracked: ${endTime!.difference(startTime!).inSeconds} seconds',
                     ),
-                    Text('Error count: '),
+                    Text('Error count: $backspaceCount'),
                   ],
                 ),
               ),
@@ -240,26 +251,37 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
         child: RotatedBox(
           quarterTurns: 3, // -90 degrees
           child: ElevatedButton(
-            onPressed: () {
-              setState(() {
-                if (isShift) {
-                  isShiftActive = !isShiftActive;
-                } else if (isBackspace) {
-                  if (typedText.isNotEmpty) {
-                    typedText = typedText.substring(0, typedText.length - 1);
-                  }
-                } else {
-                  onKeyPressed(isSpace ? ' ' : letter);
-                }
-              });
-            },
+            onPressed:
+                (disableKeys && !isBackspace)
+                    ? null
+                    : () {
+                      setState(() {
+                        if (isShift) {
+                          isShiftActive = !isShiftActive;
+                        } else if (isBackspace) {
+                          if (typedText.isNotEmpty) {
+                            typedText = typedText.substring(
+                              0,
+                              typedText.length - 1,
+                            );
+                          }
+                          backspaceCount += 1;
+                          disableKeys = false;
+                          enableBackspaceOnly = false;
+                        } else {
+                          onKeyPressed(isSpace ? ' ' : letter);
+                        }
+                      });
+                    },
             style: ElevatedButton.styleFrom(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
               padding: EdgeInsets.zero,
               backgroundColor:
-                  isShift && isShiftActive ? Colors.blue : Colors.white,
+                  (disableKeys && !isBackspace && !isShift)
+                      ? Colors.red
+                      : (isShift && isShiftActive ? Colors.blue : Colors.white),
               foregroundColor: Colors.black,
               elevation: 2,
             ),
