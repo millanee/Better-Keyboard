@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
-
 import 'package:mc_keyboard/landscape_keyboard.dart';
 
 class PortraitTypingScreen extends StatefulWidget {
@@ -11,18 +10,31 @@ class PortraitTypingScreen extends StatefulWidget {
 }
 
 class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
-  final String templateText =
-      'This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants.';
+  final String templateText = 'Test';
+  // 'This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants.';
   String typedText = '';
   bool isShiftActive = false; // shift key state
+  bool isFirstKeyPressed = true;
+  DateTime? startTime;
+  DateTime? endTime;
+  bool showPopup = false;
 
   void onKeyPressed(String letter) {
     setState(() {
+      if (isFirstKeyPressed) {
+        startTime = DateTime.now();
+        isFirstKeyPressed = false;
+      }
       if (isShiftActive) {
         typedText += letter.toUpperCase();
         isShiftActive = false; // turn off shift after one letter was pressed
       } else {
         typedText += letter;
+        if (typedText.length == templateText.length &&
+            letter == templateText[templateText.length - 1]) {
+          endTime = DateTime.now();
+          showPopup = true;
+        }
       }
     });
   }
@@ -56,7 +68,39 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
   Widget build(BuildContext context) {
     final isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
-
+    if (showPopup) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Done!'),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: <Widget>[
+                    Text(
+                      'Time tracked: ${endTime!.difference(startTime!).inMilliseconds} ms',
+                    ),
+                    Text('Error count: '),
+                  ],
+                ),
+              ),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('OK'),
+                  onPressed: () {
+                    setState(() {
+                      showPopup = false;
+                    });
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      });
+    }
     return Scaffold(
       body: Stack(
         children: [
