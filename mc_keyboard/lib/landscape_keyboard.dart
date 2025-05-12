@@ -64,7 +64,7 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
                 children: [
                   // left side: text (innput)
                   Expanded(
-                    flex: 3,
+                    flex: (MediaQuery.sizeOf(context).height * 3 / 4).floor(),
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Align(
@@ -78,12 +78,12 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
                   ),
                   Divider(height: 1),
                   Expanded(
-                    flex: 2,
+                    flex: (MediaQuery.sizeOf(context).height * 2 / 4).floor(),
                     child: Row(
                       children: [
                         // Left bottom -> typed text
                         Expanded(
-                          flex: 4,
+                          flex: 3,
                           child: Container(
                             child: Align(
                               alignment: Alignment.topLeft,
