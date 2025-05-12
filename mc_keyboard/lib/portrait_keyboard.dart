@@ -30,15 +30,15 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
   Size getKeySize(String letter) {
     var letterSize = Size(
       MediaQuery.sizeOf(context).height * 0.075,
-      MediaQuery.sizeOf(context).width * 0.045,
+      MediaQuery.sizeOf(context).width * 0.048,
     );
     var spaceSize = Size(
       MediaQuery.sizeOf(context).height * 0.6,
-      MediaQuery.sizeOf(context).width * 0.045,
+      MediaQuery.sizeOf(context).width * 0.048,
     );
     var specialSize = Size(
       MediaQuery.sizeOf(context).height * 0.1,
-      MediaQuery.sizeOf(context).width * 0.045,
+      MediaQuery.sizeOf(context).width * 0.048,
     );
 
     if (letter == ' ') {
@@ -65,7 +65,7 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
                 children: [
                   // left side: text (innput)
                   Expanded(
-                    flex: 11,
+                    flex: (MediaQuery.sizeOf(context).height * 9 / 11).floor(),
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
@@ -104,7 +104,7 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
                   const VerticalDivider(width: 1),
                   // Right side: keyboard
                   Expanded(
-                    flex: 3,
+                    flex: (MediaQuery.sizeOf(context).height * 3 / 11).floor(),
                     child: Padding(
                       padding: EdgeInsets.only(bottom: 20.0, top: 30.0),
                       child: buildKeyboard(),
