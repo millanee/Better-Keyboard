@@ -11,7 +11,7 @@ class LandscapeTypingScreen extends StatefulWidget {
 
 class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
   final String templateText =
-      'This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants.';
+      'Thi text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants.';
   String typedText = '';
   bool isShiftActive = false; // shift key state
 
