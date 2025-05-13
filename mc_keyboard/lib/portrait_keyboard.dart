@@ -13,14 +13,18 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
   final String templateText = 'Test';
   // 'This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants.';
   String typedText = '';
+
   bool isShiftActive = false; // shift key state
   bool isFirstKeyPressed = true;
+
   bool disableKeys = false;
   bool enableBackspaceOnly = false;
+
   DateTime? startTime;
   DateTime? endTime;
-  bool showPopup = false;
   int backspaceCount = 0;
+
+  bool showPopup = false;
 
   void onKeyPressed(String letter) {
     setState(() {
@@ -28,22 +32,27 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
         startTime = DateTime.now();
         isFirstKeyPressed = false;
       }
+
+      // Shift check
       if (isShiftActive) {
         letter = letter.toUpperCase();
-        typedText += letter;
-        isShiftActive = false; // turn off shift after one letter was pressed
-        debugPrint(typedText);
-      } else {
-        typedText += letter;
+        isShiftActive = false;
       }
-      if (letter != templateText[typedText.length - 1]) {
+
+      typedText += letter;
+
+      final currentIndex = typedText.length - 1;
+      final expectedLetter = templateText[currentIndex];
+
+      // Mismatch check
+      if (letter != expectedLetter) {
         disableKeys = true;
         enableBackspaceOnly = true;
-        debugPrint(typedText + " and " + templateText[typedText.length - 1]);
-        // disable all keys and enable backspace
+        return;
       }
-      if (typedText.length == templateText.length &&
-          letter == templateText[templateText.length - 1]) {
+
+      // Completion check
+      if (typedText.length == templateText.length) {
         endTime = DateTime.now();
         showPopup = true;
       }
@@ -79,6 +88,7 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
   Widget build(BuildContext context) {
     final isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
+
     if (showPopup) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         showDialog(
@@ -112,27 +122,39 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
         );
       });
     }
+
     return Scaffold(
       body: Stack(
         children: [
           isLandscape
               ? Row(
                 children: [
-                  // left side: text (innput)
+                  // Left Side: Text Input
                   Expanded(
                     flex: (MediaQuery.sizeOf(context).height * 9 / 11).floor(),
                     child: Padding(
-                      padding: const EdgeInsets.all(16.0),
+                      padding: const EdgeInsets.only(
+                        bottom: 16.0,
+                        top: 30.0,
+                        left: 16.0,
+                        right: 16.0,
+                      ),
+
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             templateText,
-                            style: const TextStyle(fontSize: 20),
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
+
                           const SizedBox(height: 20),
-                          const Divider(),
+                          const Divider(color: Colors.purple),
                           const SizedBox(height: 10),
+
                           Expanded(
                             flex: 2,
                             child: Container(
@@ -156,20 +178,20 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
                       ),
                     ),
                   ),
-                  const VerticalDivider(width: 1),
-                  // Right side: keyboard
+
+                  const VerticalDivider(width: 1, color: Colors.purple),
+
+                  // Right Side: Keyboard
                   Expanded(
                     flex: (MediaQuery.sizeOf(context).height * 3 / 11).floor(),
-                    child: Padding(
-                      padding: EdgeInsets.only(bottom: 20.0, top: 30.0),
-                      child: buildKeyboard(),
-                    ),
+                    child: buildKeyboard(),
                   ),
                 ],
               )
               : const Center(
                 child: Text("Please rotate your phone to landscape mode."),
               ),
+
           Positioned(
             left: 10,
             bottom: 10,
@@ -183,7 +205,7 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
                   ),
                 );
               },
-              child: const Text("P1"),
+              child: const Text("P - L"),
             ),
           ),
         ],
@@ -211,7 +233,9 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
         return Container(
           width: constraints.maxWidth,
           height: constraints.maxHeight,
-          color: Colors.grey[100],
+          color: const Color.fromARGB(255, 242, 227, 245),
+          padding: EdgeInsets.only(bottom: 20.0, top: 30.0),
+
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children:
@@ -281,7 +305,9 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
               backgroundColor:
                   (disableKeys && !isBackspace && !isShift)
                       ? Colors.red
-                      : (isShift && isShiftActive ? Colors.blue : Colors.white),
+                      : (isShift && isShiftActive
+                          ? Colors.purple
+                          : Colors.white),
               foregroundColor: Colors.black,
               elevation: 2,
             ),
