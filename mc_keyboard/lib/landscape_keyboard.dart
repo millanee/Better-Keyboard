@@ -13,14 +13,18 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
   final String templateText = 'Test';
   // 'This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants.';
   String typedText = '';
+
   bool isShiftActive = false; // shift key state
-  bool showPopup = false;
   bool isFirstKeyPressed = true;
+
   bool disableKeys = false;
   bool enableBackspaceOnly = false;
+
   DateTime? startTime;
   DateTime? endTime;
   int backspaceCount = 0;
+
+  bool showPopup = false;
 
   void onKeyPressed(String letter) {
     setState(() {
@@ -28,20 +32,27 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
         startTime = DateTime.now();
         isFirstKeyPressed = false;
       }
+
+      // Shift check
       if (isShiftActive) {
         letter = letter.toUpperCase();
-        typedText += letter;
-        isShiftActive = false; // turn off shift after one letter was pressed
-      } else {
-        typedText += letter;
+        isShiftActive = false;
       }
-      if (letter != templateText[typedText.length - 1]) {
+
+      typedText += letter;
+
+      final currentIndex = typedText.length - 1;
+      final expectedLetter = templateText[currentIndex];
+
+      // Mismatch check
+      if (letter != expectedLetter) {
         disableKeys = true;
         enableBackspaceOnly = true;
-        // disable all keys and enable backspace
+        return;
       }
-      if (typedText.length == templateText.length &&
-          letter == templateText[templateText.length - 1]) {
+
+      // Completion check
+      if (typedText.length == templateText.length) {
         endTime = DateTime.now();
         showPopup = true;
       }
@@ -77,6 +88,7 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
   Widget build(BuildContext context) {
     final isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
+
     if (showPopup) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         showDialog(
@@ -90,7 +102,7 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
                     Text(
                       'Time tracked: ${endTime!.difference(startTime!).inSeconds} seconds',
                     ),
-                    Text('Error count: '),
+                    Text('Error count: $backspaceCount'),
                   ],
                 ),
               ),
@@ -116,26 +128,37 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
           isLandscape
               ? Column(
                 children: [
-                  // left side: text (innput)
+                  // Left Side: Text Input
                   Expanded(
                     flex: (MediaQuery.sizeOf(context).height * 3 / 4).floor(),
                     child: Padding(
-                      padding: const EdgeInsets.all(16.0),
+                      padding: const EdgeInsets.only(
+                        bottom: 16.0,
+                        top: 30.0,
+                        left: 16.0,
+                        right: 16.0,
+                      ),
+
                       child: Align(
                         alignment: Alignment.topLeft,
                         child: Text(
                           templateText,
-                          style: const TextStyle(fontSize: 24),
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                  Divider(height: 1),
+
+                  Divider(height: 1, color: Colors.blue),
+
                   Expanded(
                     flex: (MediaQuery.sizeOf(context).height * 2 / 4).floor(),
                     child: Row(
                       children: [
-                        // Left bottom -> typed text
+                        // Left Bottom - Typed Text
                         Expanded(
                           flex: 3,
                           child: Container(
@@ -143,17 +166,22 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
                               alignment: Alignment.topLeft,
                               child: SingleChildScrollView(
                                 reverse: true,
-                                padding: const EdgeInsets.all(4.0),
+                                padding: const EdgeInsets.all(16.0),
                                 child: Text(
                                   typedText,
-                                  style: const TextStyle(fontSize: 24),
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    color: Color.fromARGB(255, 97, 97, 97),
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                        // Right bottom -> keyboard
-                        const VerticalDivider(width: 10),
+
+                        // Right Bottom - Keyboard
+                        const VerticalDivider(width: 10, color: Colors.blue),
+
                         SizedBox(
                           width: 0.8 * MediaQuery.sizeOf(context).height,
                           height: MediaQuery.sizeOf(context).width * 0.30,
@@ -167,11 +195,14 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
               : const Center(
                 child: Text("Please rotate your phone to landscape mode."),
               ),
+
           Positioned(
             right: 10,
             top: 150,
             child: FloatingActionButton(
               mini: true,
+              backgroundColor: const Color.fromARGB(255, 190, 221, 246),
+
               onPressed: () {
                 Navigator.push(
                   context,
@@ -180,7 +211,10 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
                   ),
                 );
               },
-              child: const Text("P2"),
+              child: const Text(
+                "P - P",
+                style: TextStyle(color: Color.fromARGB(255, 4, 64, 114)),
+              ),
             ),
           ),
         ],
@@ -201,7 +235,8 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
         return Container(
           width: constraints.maxHeight,
           height: constraints.maxWidth,
-          color: Colors.grey[100],
+          color: const Color.fromARGB(255, 227, 238, 247),
+
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children:
