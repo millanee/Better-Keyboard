@@ -16,6 +16,7 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
 
   bool isShiftActive = false; // shift key state
   bool isFirstKeyPressed = true;
+  bool isLeft = false;
 
   bool disableKeys = false;
   bool enableBackspaceOnly = false;
@@ -122,104 +123,188 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
         );
       });
     }
-    return Scaffold(
-      body: Stack(
-        children: [
-          isLandscape
-              ? Column(
-                children: [
-                  // Left Side: Text Input
-                  Expanded(
-                    flex: (MediaQuery.sizeOf(context).height * 3 / 4).floor(),
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                        bottom: 16.0,
-                        top: 30.0,
-                        left: 16.0,
-                        right: 16.0,
-                      ),
-
-                      child: Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          templateText,
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
+    if (isLeft) {
+      return Scaffold(
+        body: Stack(
+          children: [
+            isLandscape
+                ? Column(
+                  children: [
+                    // left side: text (innput)
+                    Expanded(
+                      flex: (MediaQuery.sizeOf(context).height * 3 / 4).floor(),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            templateText,
+                            style: const TextStyle(fontSize: 24),
                           ),
                         ),
                       ),
                     ),
-                  ),
-
-                  Divider(height: 1, color: Colors.blue),
-
-                  Expanded(
-                    flex: (MediaQuery.sizeOf(context).height * 2 / 4).floor(),
-                    child: Row(
-                      children: [
-                        // Left Bottom - Typed Text
-                        Expanded(
-                          flex: 3,
-                          child: Container(
-                            child: Align(
-                              alignment: Alignment.topLeft,
-                              child: SingleChildScrollView(
-                                reverse: true,
-                                padding: const EdgeInsets.all(16.0),
-                                child: Text(
-                                  typedText,
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                    color: Color.fromARGB(255, 97, 97, 97),
+                    Divider(height: 1),
+                    Expanded(
+                      flex: (MediaQuery.sizeOf(context).height * 2 / 4).floor(),
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: 0.8 * MediaQuery.sizeOf(context).height,
+                            height: MediaQuery.sizeOf(context).width * 0.30,
+                            child: buildKeyboard(),
+                          ),
+                          const VerticalDivider(width: 10),
+                          // Left bottom -> typed text
+                          Expanded(
+                            flex: 3,
+                            child: Container(
+                              child: Align(
+                                alignment: Alignment.topLeft,
+                                child: SingleChildScrollView(
+                                  reverse: true,
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: Text(
+                                    typedText,
+                                    style: const TextStyle(fontSize: 24),
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
 
-                        // Right Bottom - Keyboard
-                        const VerticalDivider(width: 10, color: Colors.blue),
-
-                        SizedBox(
-                          width: 0.8 * MediaQuery.sizeOf(context).height,
-                          height: MediaQuery.sizeOf(context).width * 0.30,
-                          child: buildKeyboard(),
-                        ),
-                      ],
+                          // Right bottom -> keyboard
+                        ],
+                      ),
                     ),
+                  ],
+                )
+                : const Center(
+                  child: Text("Please rotate your phone to landscape mode."),
+                ),
+            Positioned(
+              right: 10,
+              top: 100,
+              child: Column(
+                children: [
+                  FloatingActionButton(
+                    mini: true,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const PortraitTypingScreen(),
+                        ),
+                      );
+                    },
+                    child: const Text("P2"),
+                  ),
+                  FloatingActionButton(
+                    mini: true,
+                    onPressed: () {
+                      setState(() {
+                        isLeft = false;
+                      });
+                    },
+                    child: Text('->'),
                   ),
                 ],
-              )
-              : const Center(
-                child: Text("Please rotate your phone to landscape mode."),
-              ),
-
-          Positioned(
-            right: 10,
-            top: 150,
-            child: FloatingActionButton(
-              mini: true,
-              backgroundColor: const Color.fromARGB(255, 190, 221, 246),
-
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const PortraitTypingScreen(),
-                  ),
-                );
-              },
-              child: const Text(
-                "P - P",
-                style: TextStyle(color: Color.fromARGB(255, 4, 64, 114)),
               ),
             ),
-          ),
-        ],
-      ),
-    );
+          ],
+        ),
+      );
+    } else {
+      return Scaffold(
+        body: Stack(
+          children: [
+            isLandscape
+                ? Column(
+                  children: [
+                    // left side: text (innput)
+                    Expanded(
+                      flex: (MediaQuery.sizeOf(context).height * 3 / 4).floor(),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            templateText,
+                            style: const TextStyle(fontSize: 24),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Divider(height: 1),
+                    Expanded(
+                      flex: (MediaQuery.sizeOf(context).height * 2 / 4).floor(),
+                      child: Row(
+                        children: [
+                          // Left bottom -> typed text
+                          Expanded(
+                            flex: 3,
+                            child: Container(
+                              child: Align(
+                                alignment: Alignment.topLeft,
+                                child: SingleChildScrollView(
+                                  reverse: true,
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: Text(
+                                    typedText,
+                                    style: const TextStyle(fontSize: 24),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const VerticalDivider(width: 10),
+                          // Right bottom -> keyboard
+                          SizedBox(
+                            width: 0.8 * MediaQuery.sizeOf(context).height,
+                            height: MediaQuery.sizeOf(context).width * 0.30,
+                            child: buildKeyboard(),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                )
+                : const Center(
+                  child: Text("Please rotate your phone to landscape mode."),
+                ),
+            Positioned(
+              right: 10,
+              top: 100,
+              child: Column(
+                children: [
+                  FloatingActionButton(
+                    mini: true,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const PortraitTypingScreen(),
+                        ),
+                      );
+                    },
+                    child: const Text("P2"),
+                  ),
+                  FloatingActionButton(
+                    mini: true,
+                    onPressed: () {
+                      setState(() {
+                        isLeft = true;
+                      });
+                    },
+                    child: const Text("<-"),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    }
   }
 
   Widget buildKeyboard() {
