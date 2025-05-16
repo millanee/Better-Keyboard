@@ -130,21 +130,31 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
             isLandscape
                 ? Column(
                   children: [
-                    // left side: text (innput)
+                    // Left Side: Text Input
                     Expanded(
                       flex: (MediaQuery.sizeOf(context).height * 3 / 4).floor(),
                       child: Padding(
-                        padding: const EdgeInsets.all(16.0),
+                        padding: const EdgeInsets.only(
+                          bottom: 16.0,
+                          top: 30.0,
+                          left: 16.0,
+                          right: 16.0,
+                        ),
                         child: Align(
                           alignment: Alignment.topLeft,
                           child: Text(
                             templateText,
-                            style: const TextStyle(fontSize: 24),
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                    Divider(height: 1),
+
+                    Divider(height: 1, color: Colors.blue),
+
                     Expanded(
                       flex: (MediaQuery.sizeOf(context).height * 2 / 4).floor(),
                       child: Row(
@@ -154,7 +164,9 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
                             height: MediaQuery.sizeOf(context).width * 0.30,
                             child: buildKeyboard(),
                           ),
-                          const VerticalDivider(width: 10),
+
+                          const VerticalDivider(width: 10, color: Colors.blue),
+
                           // Left bottom -> typed text
                           Expanded(
                             flex: 3,
@@ -163,17 +175,18 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
                                 alignment: Alignment.topLeft,
                                 child: SingleChildScrollView(
                                   reverse: true,
-                                  padding: const EdgeInsets.all(4.0),
+                                  padding: const EdgeInsets.all(16.0),
                                   child: Text(
                                     typedText,
-                                    style: const TextStyle(fontSize: 24),
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      color: Color.fromARGB(255, 97, 97, 97),
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                           ),
-
-                          // Right bottom -> keyboard
                         ],
                       ),
                     ),
@@ -189,6 +202,7 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
                 children: [
                   FloatingActionButton(
                     mini: true,
+                    backgroundColor: const Color.fromARGB(255, 190, 221, 246),
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -197,16 +211,23 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
                         ),
                       );
                     },
-                    child: const Text("P2"),
+                    child: const Text(
+                      "P - P",
+                      style: TextStyle(color: Color.fromARGB(255, 4, 64, 114)),
+                    ),
                   ),
                   FloatingActionButton(
                     mini: true,
+                    backgroundColor: const Color.fromARGB(255, 190, 221, 246),
                     onPressed: () {
                       setState(() {
                         isLeft = false;
                       });
                     },
-                    child: Text('->'),
+                    child: const Text(
+                      "->",
+                      style: TextStyle(color: Color.fromARGB(255, 4, 64, 114)),
+                    ),
                   ),
                 ],
               ),
@@ -225,17 +246,27 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
                     Expanded(
                       flex: (MediaQuery.sizeOf(context).height * 3 / 4).floor(),
                       child: Padding(
-                        padding: const EdgeInsets.all(16.0),
+                        padding: const EdgeInsets.only(
+                          bottom: 16.0,
+                          top: 30.0,
+                          left: 16.0,
+                          right: 16.0,
+                        ),
                         child: Align(
                           alignment: Alignment.topLeft,
                           child: Text(
                             templateText,
-                            style: const TextStyle(fontSize: 24),
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                    Divider(height: 1),
+
+                    Divider(height: 1, color: Colors.blue),
+
                     Expanded(
                       flex: (MediaQuery.sizeOf(context).height * 2 / 4).floor(),
                       child: Row(
@@ -248,16 +279,21 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
                                 alignment: Alignment.topLeft,
                                 child: SingleChildScrollView(
                                   reverse: true,
-                                  padding: const EdgeInsets.all(4.0),
+                                  padding: const EdgeInsets.all(16.0),
                                   child: Text(
                                     typedText,
-                                    style: const TextStyle(fontSize: 24),
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      color: Color.fromARGB(255, 97, 97, 97),
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                          const VerticalDivider(width: 10),
+
+                          const VerticalDivider(width: 10, color: Colors.blue),
+
                           // Right bottom -> keyboard
                           SizedBox(
                             width: 0.8 * MediaQuery.sizeOf(context).height,
@@ -279,6 +315,7 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
                 children: [
                   FloatingActionButton(
                     mini: true,
+                    backgroundColor: const Color.fromARGB(255, 190, 221, 246),
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -287,16 +324,23 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
                         ),
                       );
                     },
-                    child: const Text("P2"),
+                    child: const Text(
+                      "P - P",
+                      style: TextStyle(color: Color.fromARGB(255, 4, 64, 114)),
+                    ),
                   ),
                   FloatingActionButton(
                     mini: true,
+                    backgroundColor: const Color.fromARGB(255, 190, 221, 246),
                     onPressed: () {
                       setState(() {
                         isLeft = true;
                       });
                     },
-                    child: const Text("<-"),
+                    child: const Text(
+                      "<-",
+                      style: TextStyle(color: Color.fromARGB(255, 4, 64, 114)),
+                    ),
                   ),
                 ],
               ),
