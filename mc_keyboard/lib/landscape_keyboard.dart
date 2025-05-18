@@ -234,25 +234,9 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
                 ),
             Positioned(
               right: 10,
-              top: 100,
+              top: 150,
               child: Column(
                 children: [
-                  FloatingActionButton(
-                    mini: true,
-                    backgroundColor: const Color.fromARGB(255, 190, 221, 246),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const PortraitTypingScreen(),
-                        ),
-                      );
-                    },
-                    child: const Text(
-                      "P - P",
-                      style: TextStyle(color: Color.fromARGB(255, 4, 64, 114)),
-                    ),
-                  ),
                   FloatingActionButton(
                     mini: true,
                     backgroundColor: const Color.fromARGB(255, 190, 221, 246),
@@ -346,26 +330,10 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
                   child: Text("Please rotate your phone to landscape mode."),
                 ),
             Positioned(
-              right: 10,
-              top: 100,
+              left: 10,
+              top: 150,
               child: Column(
                 children: [
-                  FloatingActionButton(
-                    mini: true,
-                    backgroundColor: const Color.fromARGB(255, 190, 221, 246),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const PortraitTypingScreen(),
-                        ),
-                      );
-                    },
-                    child: const Text(
-                      "P - P",
-                      style: TextStyle(color: Color.fromARGB(255, 4, 64, 114)),
-                    ),
-                  ),
                   FloatingActionButton(
                     mini: true,
                     backgroundColor: const Color.fromARGB(255, 190, 221, 246),

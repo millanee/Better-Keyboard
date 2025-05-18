@@ -239,18 +239,6 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
                   FloatingActionButton(
                     mini: true,
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const LandscapeTypingScreen(),
-                        ),
-                      );
-                    },
-                    child: const Text("P - L"),
-                  ),
-                  FloatingActionButton(
-                    mini: true,
-                    onPressed: () {
                       setState(() {
                         isLeft = !isLeft;
                       });
@@ -340,18 +328,6 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
               bottom: 10,
               child: Column(
                 children: [
-                  FloatingActionButton(
-                    mini: true,
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const LandscapeTypingScreen(),
-                        ),
-                      );
-                    },
-                    child: const Text("P - L"),
-                  ),
                   FloatingActionButton(
                     mini: true,
                     onPressed: () {
