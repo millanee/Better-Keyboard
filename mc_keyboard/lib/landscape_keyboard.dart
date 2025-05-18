@@ -10,9 +10,12 @@ class LandscapeTypingScreen extends StatefulWidget {
 }
 
 class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
-  final String templateText = 'Test';
+  final String templateText = 'Test.TestZwei.';
   // 'This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants.';
   String typedText = '';
+  late List<String> sentences;
+  int sentenceCounter = 0;
+  String get currentSentence => sentences[sentenceCounter];
 
   bool isShiftActive = false; // shift key state
   bool isFirstKeyPressed = true;
@@ -26,6 +29,16 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
   int backspaceCount = 0;
 
   bool showPopup = false;
+
+  @override
+  void initState() {
+    super.initState();
+    sentences =
+        templateText
+            .split(RegExp(r'(?<=\.)\s*'))
+            .where((s) => s.isNotEmpty)
+            .toList();
+  }
 
   void onKeyPressed(String letter) {
     setState(() {
@@ -43,7 +56,8 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
       typedText += letter;
 
       final currentIndex = typedText.length - 1;
-      final expectedLetter = templateText[currentIndex];
+      final expectedLetter =
+          sentences[sentenceCounter][currentIndex]; //templateText[currentIndex];
 
       // Mismatch check
       if (letter != expectedLetter) {
@@ -52,11 +66,21 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
         return;
       }
 
-      // Completion check
-      if (typedText.length == templateText.length) {
-        endTime = DateTime.now();
-        showPopup = true;
+      if (letter == '.') {
+        sentenceCounter += 1;
+        typedText = '';
+        if (sentenceCounter == sentences.length) {
+          sentenceCounter -= 1;
+          endTime = DateTime.now();
+          showPopup = true;
+        }
       }
+
+      // Completion check
+      // if (typedText.length == templateText.length) {
+      //   endTime = DateTime.now();
+      //   showPopup = true;
+      // }
     });
   }
 
@@ -143,7 +167,7 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
                         child: Align(
                           alignment: Alignment.topLeft,
                           child: Text(
-                            templateText,
+                            sentences[sentenceCounter],
                             style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w600,
@@ -255,7 +279,7 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
                         child: Align(
                           alignment: Alignment.topLeft,
                           child: Text(
-                            templateText,
+                            sentences[sentenceCounter],
                             style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w600,
@@ -356,7 +380,7 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
       ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
       ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
       ['⇧', 'z', 'x', 'c', 'v', 'b', 'n', 'm', '⌫'],
-      [';', ' ', ':'],
+      [',', ' ', '.'],
     ];
 
     return LayoutBuilder(
