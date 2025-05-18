@@ -124,9 +124,15 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
                 child: ListBody(
                   children: <Widget>[
                     Text(
-                      'Time tracked: ${endTime!.difference(startTime!).inSeconds} seconds',
+                      'Time tracked: ${endTime!.difference(startTime!).inMilliseconds} ms',
+                    ),
+                    Text(
+                      'Avg time per char: ${double.parse(((endTime!.difference(startTime!).inMilliseconds) / templateText.length).toStringAsFixed(2))} ms',
                     ),
                     Text('Error count: $backspaceCount'),
+                    Text(
+                      'Error rate: ${double.parse((backspaceCount / templateText.length).toStringAsFixed(4))}',
+                    ),
                   ],
                 ),
               ),
