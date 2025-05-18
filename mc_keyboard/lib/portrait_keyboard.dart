@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:mc_keyboard/landscape_keyboard.dart';
+import 'package:mc_keyboard/start_screen.dart';
 
 class PortraitTypingScreen extends StatefulWidget {
   const PortraitTypingScreen({super.key});
@@ -144,6 +145,12 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
                       showPopup = false;
                     });
                     Navigator.of(context).pop();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const StartScreen(),
+                      ),
+                    );
                   },
                 ),
               ],
