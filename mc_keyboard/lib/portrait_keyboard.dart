@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
-import 'package:mc_keyboard/landscape_keyboard.dart';
 import 'package:mc_keyboard/start_screen.dart';
 
 class PortraitTypingScreen extends StatefulWidget {
@@ -75,12 +74,6 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
           showPopup = true;
         }
       }
-
-      // Completion check
-      // if (typedText.length == templateText.length) {
-      //   endTime = DateTime.now();
-      //   showPopup = true;
-      // }
     });
   }
 
@@ -223,8 +216,6 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
                         ),
                       ),
                     ),
-
-                    // Right Side: Keyboard
                   ],
                 )
                 : const Center(
@@ -347,13 +338,6 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
   }
 
   Widget buildKeyboard(isLeft) {
-    // const keys = [
-    //   ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
-    //   ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
-    //   ['z', 'x', 'c', 'v', 'b', 'n', 'm'],
-    //   ['⇧', ',', ' ', '.', '⌫'],
-    // ];
-
     var columns = [
       ['p', 'o', 'i', 'u', 'y', 't', 'r', 'e', 'w', 'q'],
       ['l', 'k', 'j', 'h', 'g', 'f', 'd', 's', 'a'],

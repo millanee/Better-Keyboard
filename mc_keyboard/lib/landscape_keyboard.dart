@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import 'package:mc_keyboard/portrait_keyboard.dart';
 import 'package:mc_keyboard/start_screen.dart';
 
 class LandscapeTypingScreen extends StatefulWidget {
@@ -16,7 +14,6 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
   String typedText = '';
   late List<String> sentences;
   int sentenceCounter = 0;
-  String get currentSentence => sentences[sentenceCounter];
 
   bool isShiftActive = false; // shift key state
   bool isFirstKeyPressed = true;
@@ -57,8 +54,7 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
       typedText += letter;
 
       final currentIndex = typedText.length - 1;
-      final expectedLetter =
-          sentences[sentenceCounter][currentIndex]; //templateText[currentIndex];
+      final expectedLetter = sentences[sentenceCounter][currentIndex];
 
       // Mismatch check
       if (letter != expectedLetter) {
@@ -67,6 +63,7 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
         return;
       }
 
+      // Check sentence and test end
       if (letter == '.') {
         sentenceCounter += 1;
         typedText = '';
@@ -76,12 +73,6 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
           showPopup = true;
         }
       }
-
-      // Completion check
-      // if (typedText.length == templateText.length) {
-      //   endTime = DateTime.now();
-      //   showPopup = true;
-      // }
     });
   }
 
