@@ -10,9 +10,12 @@ class PortraitTypingScreen extends StatefulWidget {
 }
 
 class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
-  final String templateText = 'Test';
+  final String templateText = 'Test.TestZwei.';
   // 'This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants.';
   String typedText = '';
+  late List<String> sentences;
+  int sentenceCounter = 0;
+  //String get currentSentence => sentences[sentenceCounter];
 
   bool isShiftActive = false; // shift key state
   bool isFirstKeyPressed = true;
@@ -26,6 +29,16 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
   int backspaceCount = 0;
 
   bool showPopup = false;
+
+  @override
+  void initState() {
+    super.initState();
+    sentences =
+        templateText
+            .split(RegExp(r'(?<=\.)\s*'))
+            .where((s) => s.isNotEmpty)
+            .toList();
+  }
 
   void onKeyPressed(String letter) {
     setState(() {
@@ -43,7 +56,7 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
       typedText += letter;
 
       final currentIndex = typedText.length - 1;
-      final expectedLetter = templateText[currentIndex];
+      final expectedLetter = sentences[sentenceCounter][currentIndex];
 
       // Mismatch check
       if (letter != expectedLetter) {
@@ -52,11 +65,21 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
         return;
       }
 
-      // Completion check
-      if (typedText.length == templateText.length) {
-        endTime = DateTime.now();
-        showPopup = true;
+      if (letter == '.') {
+        sentenceCounter += 1;
+        typedText = '';
+        if (sentenceCounter == sentences.length) {
+          sentenceCounter -= 1;
+          endTime = DateTime.now();
+          showPopup = true;
+        }
       }
+
+      // Completion check
+      // if (typedText.length == templateText.length) {
+      //   endTime = DateTime.now();
+      //   showPopup = true;
+      // }
     });
   }
 
@@ -153,7 +176,7 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              templateText,
+                              sentences[sentenceCounter],
                               style: const TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w600,
@@ -250,7 +273,7 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              templateText,
+                              sentences[sentenceCounter],
                               style: const TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w600,
