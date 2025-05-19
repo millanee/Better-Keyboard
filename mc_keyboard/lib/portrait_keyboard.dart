@@ -87,7 +87,7 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
 
   Size getKeySize(String letter) {
     var letterSize = Size(
-      MediaQuery.sizeOf(context).height * 0.075,
+      MediaQuery.sizeOf(context).height * 0.078,
       MediaQuery.sizeOf(context).width * 0.048,
     );
     var spaceSize = Size(
@@ -410,7 +410,7 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
           width: constraints.maxWidth,
           height: constraints.maxHeight,
           color: const Color.fromARGB(255, 242, 227, 245),
-          padding: EdgeInsets.only(bottom: 20.0, top: 30.0),
+          padding: EdgeInsets.only(bottom: 0.0, top: 30.0),
 
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
