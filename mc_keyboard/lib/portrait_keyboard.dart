@@ -220,16 +220,11 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
             isLandscape
                 ? Row(
                   children: [
-                    Expanded(
-                      flex:
-                          (MediaQuery.sizeOf(context).height * 3 / 11).floor(),
-                      child: buildKeyboard(isLeft),
-                    ),
+                    Expanded(flex: 3, child: buildKeyboard(isLeft)),
                     const VerticalDivider(width: 1, color: Colors.purple),
                     // Left Side: Text Input
                     Expanded(
-                      flex:
-                          (MediaQuery.sizeOf(context).height * 9 / 11).floor(),
+                      flex: 9,
                       child: Padding(
                         padding: const EdgeInsets.only(
                           bottom: 16.0,
@@ -311,8 +306,7 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
                   children: [
                     // Left Side: Text Input
                     Expanded(
-                      flex:
-                          (MediaQuery.sizeOf(context).height * 9 / 11).floor(),
+                      flex: 9,
                       child: Padding(
                         padding: const EdgeInsets.only(
                           bottom: 16.0,
@@ -363,11 +357,7 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
                     const VerticalDivider(width: 1, color: Colors.purple),
 
                     // Right Side: Keyboard
-                    Expanded(
-                      flex:
-                          (MediaQuery.sizeOf(context).height * 3 / 11).floor(),
-                      child: buildKeyboard(isLeft),
-                    ),
+                    Expanded(flex: 3, child: buildKeyboard(isLeft)),
                   ],
                 )
                 : const Center(

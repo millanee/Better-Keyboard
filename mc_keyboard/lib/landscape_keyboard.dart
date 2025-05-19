@@ -221,7 +221,7 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
                   children: [
                     // Left Side: Text Input
                     Expanded(
-                      flex: (MediaQuery.sizeOf(context).height * 3 / 4).floor(),
+                      flex: 3,
                       child: Padding(
                         padding: const EdgeInsets.only(
                           bottom: 16.0,
@@ -245,7 +245,7 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
                     Divider(height: 1, color: Colors.blue),
 
                     Expanded(
-                      flex: (MediaQuery.sizeOf(context).height * 2 / 4).floor(),
+                      flex: 2,
                       child: Row(
                         children: [
                           SizedBox(
@@ -317,7 +317,7 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
                   children: [
                     // left side: text (innput)
                     Expanded(
-                      flex: (MediaQuery.sizeOf(context).height * 3 / 4).floor(),
+                      flex: 3,
                       child: Padding(
                         padding: const EdgeInsets.only(
                           bottom: 16.0,
@@ -341,7 +341,7 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
                     Divider(height: 1, color: Colors.blue),
 
                     Expanded(
-                      flex: (MediaQuery.sizeOf(context).height * 2 / 4).floor(),
+                      flex: 2,
                       child: Row(
                         children: [
                           // Left bottom -> typed text
@@ -370,7 +370,7 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
                           // Right bottom -> keyboard
                           SizedBox(
                             width: 0.8 * MediaQuery.sizeOf(context).height,
-                            height: MediaQuery.sizeOf(context).width * 0.30,
+                            height: MediaQuery.sizeOf(context).width * 0.3,
                             child: buildKeyboard(),
                           ),
                         ],
