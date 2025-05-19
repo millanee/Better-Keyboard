@@ -9,13 +9,15 @@ class LandscapeTypingScreen extends StatefulWidget {
 }
 
 class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
-  final String templateText = 'Test.TestZwei.';
+  final String practiceText = 'Prac.PracTwo.';
+  final String templateText = 'Test.TestTwo.';
   // 'This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants.';
   String typedText = '';
   late List<String> sentences;
   int sentenceCounter = 0;
+  bool isPractice = true;
 
-  bool isShiftActive = false; // shift key state
+  bool isShiftActive = false;
   bool isFirstKeyPressed = true;
   bool isLeft = false;
 
@@ -26,16 +28,19 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
   DateTime? endTime;
   int backspaceCount = 0;
 
-  bool showPopup = false;
+  bool showFinalPopup = false;
+  bool showPracticePopup = false;
 
   @override
   void initState() {
     super.initState();
-    sentences =
-        templateText
-            .split(RegExp(r'(?<=\.)\s*'))
-            .where((s) => s.isNotEmpty)
-            .toList();
+    if (isPractice) {
+      sentences =
+          practiceText
+              .split(RegExp(r'(?<=\.)\s*'))
+              .where((s) => s.isNotEmpty)
+              .toList();
+    }
   }
 
   void onKeyPressed(String letter) {
@@ -63,14 +68,17 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
         return;
       }
 
-      // Check sentence and test end
       if (letter == '.') {
         sentenceCounter += 1;
         typedText = '';
         if (sentenceCounter == sentences.length) {
           sentenceCounter -= 1;
           endTime = DateTime.now();
-          showPopup = true;
+          if (isPractice) {
+            showPracticePopup = true;
+          } else {
+            showFinalPopup = true;
+          }
         }
       }
     });
@@ -106,7 +114,7 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
     final isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
 
-    if (showPopup) {
+    if (showFinalPopup) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         showDialog(
           context: context,
@@ -134,7 +142,7 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
                   child: const Text('OK'),
                   onPressed: () {
                     setState(() {
-                      showPopup = false;
+                      showFinalPopup = false;
                     });
                     Navigator.of(context).pop();
                     Navigator.push(
@@ -151,6 +159,59 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
         );
       });
     }
+
+    if (showPracticePopup) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Practice Done!'),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: <Widget>[
+                    Text(
+                      'Time tracked: ${endTime!.difference(startTime!).inMilliseconds} ms',
+                    ),
+                    Text(
+                      'Avg time per char: ${double.parse(((endTime!.difference(startTime!).inMilliseconds) / practiceText.length).toStringAsFixed(2))} ms',
+                    ),
+                    Text('Error count: $backspaceCount'),
+                    Text(
+                      'Error rate: ${double.parse((backspaceCount / practiceText.length).toStringAsFixed(4))}',
+                    ),
+                  ],
+                ),
+              ),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('Start Actual Test'),
+                  onPressed: () {
+                    setState(() {
+                      showPracticePopup = false;
+                    });
+                    Navigator.of(context).pop();
+                    isPractice = false;
+                    setState(() {
+                      sentences =
+                          templateText
+                              .split(RegExp(r'(?<=\.)\s*'))
+                              .where((s) => s.isNotEmpty)
+                              .toList();
+                      typedText = '';
+                      sentenceCounter = 0;
+                      backspaceCount = 0;
+                      isFirstKeyPressed = true;
+                    });
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      });
+    }
+
     if (isLeft) {
       return Scaffold(
         body: Stack(
