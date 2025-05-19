@@ -10,14 +10,15 @@ class PortraitTypingScreen extends StatefulWidget {
 }
 
 class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
-  final String templateText = 'Test.TestZwei.';
+  final String practiceText = 'Prac.PracTwo.';
+  final String templateText = 'Test.TestTwo.';
   // 'This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants.';
   String typedText = '';
   late List<String> sentences;
   int sentenceCounter = 0;
-  //String get currentSentence => sentences[sentenceCounter];
+  bool isPractice = true;
 
-  bool isShiftActive = false; // shift key state
+  bool isShiftActive = false;
   bool isFirstKeyPressed = true;
   bool isLeft = false;
 
@@ -28,16 +29,19 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
   DateTime? endTime;
   int backspaceCount = 0;
 
-  bool showPopup = false;
+  bool showFinalPopup = false;
+  bool showPracticePopup = false;
 
   @override
   void initState() {
     super.initState();
-    sentences =
-        templateText
-            .split(RegExp(r'(?<=\.)\s*'))
-            .where((s) => s.isNotEmpty)
-            .toList();
+    if (isPractice) {
+      sentences =
+          practiceText
+              .split(RegExp(r'(?<=\.)\s*'))
+              .where((s) => s.isNotEmpty)
+              .toList();
+    }
   }
 
   void onKeyPressed(String letter) {
@@ -71,7 +75,11 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
         if (sentenceCounter == sentences.length) {
           sentenceCounter -= 1;
           endTime = DateTime.now();
-          showPopup = true;
+          if (isPractice) {
+            showPracticePopup = true;
+          } else {
+            showFinalPopup = true;
+          }
         }
       }
     });
@@ -79,7 +87,7 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
 
   Size getKeySize(String letter) {
     var letterSize = Size(
-      MediaQuery.sizeOf(context).height * 0.075,
+      MediaQuery.sizeOf(context).height * 0.078,
       MediaQuery.sizeOf(context).width * 0.048,
     );
     var spaceSize = Size(
@@ -107,7 +115,7 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
     final isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
 
-    if (showPopup) {
+    if (showFinalPopup) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         showDialog(
           context: context,
@@ -135,7 +143,7 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
                   child: const Text('OK'),
                   onPressed: () {
                     setState(() {
-                      showPopup = false;
+                      showFinalPopup = false;
                     });
                     Navigator.of(context).pop();
                     Navigator.push(
@@ -153,6 +161,58 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
       });
     }
 
+    if (showPracticePopup) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Practice Done!'),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: <Widget>[
+                    Text(
+                      'Time tracked: ${endTime!.difference(startTime!).inMilliseconds} ms',
+                    ),
+                    Text(
+                      'Avg time per char: ${double.parse(((endTime!.difference(startTime!).inMilliseconds) / practiceText.length).toStringAsFixed(2))} ms',
+                    ),
+                    Text('Error count: $backspaceCount'),
+                    Text(
+                      'Error rate: ${double.parse((backspaceCount / practiceText.length).toStringAsFixed(4))}',
+                    ),
+                  ],
+                ),
+              ),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('Start Actual Test'),
+                  onPressed: () {
+                    setState(() {
+                      showPracticePopup = false;
+                    });
+                    Navigator.of(context).pop();
+                    isPractice = false;
+                    setState(() {
+                      sentences =
+                          templateText
+                              .split(RegExp(r'(?<=\.)\s*'))
+                              .where((s) => s.isNotEmpty)
+                              .toList();
+                      typedText = '';
+                      sentenceCounter = 0;
+                      backspaceCount = 0;
+                      isFirstKeyPressed = true;
+                    });
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      });
+    }
+
     if (isLeft) {
       return Scaffold(
         body: Stack(
@@ -160,16 +220,11 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
             isLandscape
                 ? Row(
                   children: [
-                    Expanded(
-                      flex:
-                          (MediaQuery.sizeOf(context).height * 3 / 11).floor(),
-                      child: buildKeyboard(isLeft),
-                    ),
+                    Expanded(flex: 3, child: buildKeyboard(isLeft)),
                     const VerticalDivider(width: 1, color: Colors.purple),
                     // Left Side: Text Input
                     Expanded(
-                      flex:
-                          (MediaQuery.sizeOf(context).height * 9 / 11).floor(),
+                      flex: 9,
                       child: Padding(
                         padding: const EdgeInsets.only(
                           bottom: 16.0,
@@ -251,8 +306,7 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
                   children: [
                     // Left Side: Text Input
                     Expanded(
-                      flex:
-                          (MediaQuery.sizeOf(context).height * 9 / 11).floor(),
+                      flex: 9,
                       child: Padding(
                         padding: const EdgeInsets.only(
                           bottom: 16.0,
@@ -303,11 +357,7 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
                     const VerticalDivider(width: 1, color: Colors.purple),
 
                     // Right Side: Keyboard
-                    Expanded(
-                      flex:
-                          (MediaQuery.sizeOf(context).height * 3 / 11).floor(),
-                      child: buildKeyboard(isLeft),
-                    ),
+                    Expanded(flex: 3, child: buildKeyboard(isLeft)),
                   ],
                 )
                 : const Center(
@@ -360,7 +410,7 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
           width: constraints.maxWidth,
           height: constraints.maxHeight,
           color: const Color.fromARGB(255, 242, 227, 245),
-          padding: EdgeInsets.only(bottom: 20.0, top: 30.0),
+          padding: EdgeInsets.only(bottom: 0.0, top: 30.0),
 
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
