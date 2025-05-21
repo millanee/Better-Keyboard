@@ -10,15 +10,17 @@ class PortraitTypingScreen extends StatefulWidget {
 }
 
 class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
-  final String practiceText = 'Prac.PracTwo.';
-  final String templateText = 'Test.TestTwo.';
+  final String practiceText =
+      'Thanks for your concern.Best of luck and stay in touch.Scotty and I will be in NYC.This seems fine to me.Just wanted to touch base.It is still going on, quite boring though.The contract is a bit complicated.Hope you guys are doing fine.Call me to give me a heads up.I have never worked with her.Still not resolved.I can be there within the hour.He would love anything about rocks.I think that is the right answer.Thanks for the quick turnaround.Hopefully it cheered you up a bit.I am not planning on doing anything this week.Call me anytime for information.Lisa now has everything.Please call tomorrow if possible.';
+  final String templateText =
+      'I have never worked with her.That would likely be an expensive option.Tax gave us the same feedback.I would be glad to participate.Be back tomorrow and maybe we can visit.Please let me know if you learn anything at the floor meeting.What will happen to this project.Please pass along my thanks, though.I can review afterwards and get back to you tonight.We need a process to deal with this.I have thirty minutes then.I am on my way back there to do so.You snooze you lose.I think Tim wants to move quickly.We probably have to discuss trade behavior and margin.Okay, I will go for a ticket.I think we are doing OK.Very foggy this AM.We will sign tomorrow and fund Tuesday.It will probably be tomorrow.';
   // 'This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants.';
   String typedText = '';
   late List<String> sentences;
   int sentenceCounter = 0;
   bool isPractice = true;
 
-  bool isShiftActive = false;
+  bool isShiftActive = true;
   bool isFirstKeyPressed = true;
   bool isLeft = false;
 
@@ -72,6 +74,7 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
       if (letter == '.') {
         sentenceCounter += 1;
         typedText = '';
+        isShiftActive = true;
         if (sentenceCounter == sentences.length) {
           sentenceCounter -= 1;
           endTime = DateTime.now();
@@ -88,15 +91,15 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
   Size getKeySize(String letter) {
     var letterSize = Size(
       MediaQuery.sizeOf(context).height * 0.078,
-      MediaQuery.sizeOf(context).width * 0.048,
+      MediaQuery.sizeOf(context).width * 0.054,
     );
     var spaceSize = Size(
       MediaQuery.sizeOf(context).height * 0.6,
-      MediaQuery.sizeOf(context).width * 0.048,
+      MediaQuery.sizeOf(context).width * 0.054,
     );
     var specialSize = Size(
       MediaQuery.sizeOf(context).height * 0.1,
-      MediaQuery.sizeOf(context).width * 0.048,
+      MediaQuery.sizeOf(context).width * 0.054,
     );
 
     if (letter == ' ') {
@@ -126,7 +129,7 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
                 child: ListBody(
                   children: <Widget>[
                     Text(
-                      'Time tracked: ${endTime!.difference(startTime!).inMilliseconds} ms',
+                      'Time tracked: ${endTime!.difference(startTime!).inSeconds} second',
                     ),
                     Text(
                       'Avg time per char: ${double.parse(((endTime!.difference(startTime!).inMilliseconds) / templateText.length).toStringAsFixed(2))} ms',
@@ -417,7 +420,6 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
             children:
                 columns.map((column) {
                   return SizedBox(
-                    width: 50,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: column.map(buildKey).toList(),
@@ -468,6 +470,9 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
                           backspaceCount += 1;
                           disableKeys = false;
                           enableBackspaceOnly = false;
+                          if (typedText.length == 0) {
+                            isShiftActive = true;
+                          }
                         } else {
                           onKeyPressed(isSpace ? ' ' : letter);
                         }
