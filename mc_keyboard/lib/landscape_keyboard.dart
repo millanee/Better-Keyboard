@@ -9,15 +9,16 @@ class LandscapeTypingScreen extends StatefulWidget {
 }
 
 class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
-  final String practiceText = 'Prac.PracTwo.';
-  final String templateText = 'Test.TestTwo.';
-  // 'This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants.';
+  final String practiceText =
+      'Thanks for your concern.Best of luck and stay in touch.Scotty and I will be in NYC.This seems fine to me.Just wanted to touch base.It is still going on, quite boring though.The contract is a bit complicated.Hope you guys are doing fine.Call me to give me a heads up.I have never worked with her.Still not resolved.I can be there within the hour.He would love anything about rocks.I think that is the right answer.Thanks for the quick turnaround.Hopefully it cheered you up a bit.I am not planning on doing anything this week.Call me anytime for information.Lisa now has everything.Please call tomorrow if possible.';
+  final String templateText =
+      'I think these will be just fine.Nothing but good news everyday.What a crazy day.She called and wants to come over this AM.Tell her to get my expense report done.I am out of town on business tonight.A letter is being sent today.Never mind, I already deleted it.Disney was great and I have been to eight baseball games.You can talk to Becky.OK to make changes, change out original.Wednesday is definitely a hot chocolate day.Thursday works better for me.On the plane, doors closing.She has absolutely everything.Also it appears no payment is required tomorrow.We can have wine and catch up.Hopefully this can wait until Monday.I agree since I am at the bank right now.I changed that in one prior draft.';
   String typedText = '';
   late List<String> sentences;
   int sentenceCounter = 0;
   bool isPractice = true;
 
-  bool isShiftActive = false;
+  bool isShiftActive = true;
   bool isFirstKeyPressed = true;
   bool isLeft = false;
 
@@ -71,6 +72,7 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
       if (letter == '.') {
         sentenceCounter += 1;
         typedText = '';
+        isShiftActive = true;
         if (sentenceCounter == sentences.length) {
           sentenceCounter -= 1;
           endTime = DateTime.now();
@@ -86,7 +88,7 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
 
   Size getKeySize(String letter) {
     var letterSize = Size(
-      MediaQuery.sizeOf(context).height * 0.065,
+      MediaQuery.sizeOf(context).height * 0.069,
       MediaQuery.sizeOf(context).width * 0.038,
     );
     var spaceSize = Size(
@@ -125,7 +127,7 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
                 child: ListBody(
                   children: <Widget>[
                     Text(
-                      'Time tracked: ${endTime!.difference(startTime!).inMilliseconds} ms',
+                      'Time tracked: ${endTime!.difference(startTime!).inSeconds} seconds',
                     ),
                     Text(
                       'Avg time per char: ${double.parse(((endTime!.difference(startTime!).inMilliseconds) / templateText.length).toStringAsFixed(2))} ms',
@@ -413,7 +415,7 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
       ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
       ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
       ['⇧', 'z', 'x', 'c', 'v', 'b', 'n', 'm', '⌫'],
-      [',', ' ', '.'],
+      ['.', ' ', ','],
     ];
 
     return LayoutBuilder(
@@ -476,6 +478,9 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
                         backspaceCount += 1;
                         disableKeys = false;
                         enableBackspaceOnly = false;
+                        if (typedText.length == 0) {
+                          isShiftActive = true;
+                        }
                       } else {
                         onKeyPressed(isSpace ? ' ' : letter);
                       }
