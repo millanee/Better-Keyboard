@@ -90,16 +90,16 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
 
   Size getKeySize(String letter) {
     var letterSize = Size(
-      MediaQuery.sizeOf(context).height * 0.078,
-      MediaQuery.sizeOf(context).width * 0.054,
+      MediaQuery.sizeOf(context).height * 0.069,
+      MediaQuery.sizeOf(context).width * 0.038,
     );
     var spaceSize = Size(
-      MediaQuery.sizeOf(context).height * 0.6,
-      MediaQuery.sizeOf(context).width * 0.054,
+      MediaQuery.sizeOf(context).height * 0.55,
+      MediaQuery.sizeOf(context).width * 0.038,
     );
     var specialSize = Size(
       MediaQuery.sizeOf(context).height * 0.1,
-      MediaQuery.sizeOf(context).width * 0.054,
+      MediaQuery.sizeOf(context).width * 0.038,
     );
 
     if (letter == ' ') {
@@ -223,11 +223,11 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
             isLandscape
                 ? Row(
                   children: [
-                    Expanded(flex: 3, child: buildKeyboard(isLeft)),
+                    Expanded(flex: 9, child: buildKeyboard(isLeft)),
                     const VerticalDivider(width: 1, color: Colors.purple),
                     // Left Side: Text Input
                     Expanded(
-                      flex: 9,
+                      flex: 41,
                       child: Padding(
                         padding: const EdgeInsets.only(
                           bottom: 16.0,
@@ -309,7 +309,7 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
                   children: [
                     // Left Side: Text Input
                     Expanded(
-                      flex: 9,
+                      flex: 41,
                       child: Padding(
                         padding: const EdgeInsets.only(
                           bottom: 16.0,
@@ -360,7 +360,7 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
                     const VerticalDivider(width: 1, color: Colors.purple),
 
                     // Right Side: Keyboard
-                    Expanded(flex: 3, child: buildKeyboard(isLeft)),
+                    Expanded(flex: 9, child: buildKeyboard(isLeft)),
                   ],
                 )
                 : const Center(
@@ -401,9 +401,9 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
     if (isLeft) {
       columns = [
         ['.', ' ', ','],
-        ['⌫', 'm', 'n', 'b', 'v', 'c', 'x', 'z', '⇧'],
-        ['l', 'k', 'j', 'h', 'g', 'f', 'd', 's', 'a'],
-        ['p', 'o', 'i', 'u', 'y', 't', 'r', 'e', 'w', 'q'],
+        ['⌫', 'z', 'x', 'c', 'v', 'b', 'n', 'm', '⇧'],
+        ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
+        ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
       ];
     }
 
@@ -413,7 +413,12 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
           width: constraints.maxWidth,
           height: constraints.maxHeight,
           color: const Color.fromARGB(255, 242, 227, 245),
-          padding: EdgeInsets.only(bottom: 0.0, top: 30.0),
+          padding: EdgeInsets.only(
+            bottom: 0.0,
+            top:
+                (MediaQuery.sizeOf(context).height -
+                    MediaQuery.sizeOf(context).width * 0.4),
+          ),
 
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
