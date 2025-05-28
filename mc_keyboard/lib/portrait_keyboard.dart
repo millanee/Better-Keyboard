@@ -11,10 +11,10 @@ class PortraitTypingScreen extends StatefulWidget {
 
 class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
   final String practiceText =
-      'Thanks for your concern.Best of luck and stay in touch.Scotty and I will be in NYC.This seems fine to me.Just wanted to touch base.It is still going on, quite boring though.The contract is a bit complicated.Hope you guys are doing fine.Call me to give me a heads up.I have never worked with her.Still not resolved.I can be there within the hour.He would love anything about rocks.I think that is the right answer.Thanks for the quick turnaround.Hopefully it cheered you up a bit.I am not planning on doing anything this week.Call me anytime for information.Lisa now has everything.Please call tomorrow if possible.';
+      'Thanks for your concern.Best of luck and stay in touch.Scotty and I will be in NYC.This seems fine to me.Just wanted to touch base.It is still going on, quite boring though.That would likely be an expensive option.The contract is a bit complicated.Apologize to Steve Dowd for me.Call me to give me a heads up.';
   final String templateText =
-      'I have never worked with her.That would likely be an expensive option.Tax gave us the same feedback.I would be glad to participate.Be back tomorrow and maybe we can visit.Please let me know if you learn anything at the floor meeting.What will happen to this project.Please pass along my thanks, though.I can review afterwards and get back to you tonight.We need a process to deal with this.I have thirty minutes then.I am on my way back there to do so.You snooze you lose.I think Tim wants to move quickly.We probably have to discuss trade behavior and margin.Okay, I will go for a ticket.I think we are doing OK.Very foggy this AM.We will sign tomorrow and fund Tuesday.It will probably be tomorrow.';
-  // 'This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants. This text needs to be typed by the participants.';
+      'You snooze you lose.We probably have to discuss trade behavior and margin.Very foggy this AM.I think we are doing OK.Tax gave us the same feedback.Please let me know if you learn anything at the floor meeting.I can review afterwards and get back to you tonight.I am on my way back there to do so.I would be glad to participate.We will sign tomorrow and fund Tuesday.It will probably be tomorrow.I have thirty minutes then.Please pass along my thanks, though.I think Tim wants to move quickly.What will happen to this project.';
+
   String typedText = '';
   late List<String> sentences;
   int sentenceCounter = 0;
@@ -90,16 +90,16 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
 
   Size getKeySize(String letter) {
     var letterSize = Size(
-      MediaQuery.sizeOf(context).height * 0.078,
-      MediaQuery.sizeOf(context).width * 0.054,
+      MediaQuery.sizeOf(context).height * 0.069,
+      MediaQuery.sizeOf(context).width * 0.038,
     );
     var spaceSize = Size(
-      MediaQuery.sizeOf(context).height * 0.6,
-      MediaQuery.sizeOf(context).width * 0.054,
+      MediaQuery.sizeOf(context).height * 0.55,
+      MediaQuery.sizeOf(context).width * 0.038,
     );
     var specialSize = Size(
       MediaQuery.sizeOf(context).height * 0.1,
-      MediaQuery.sizeOf(context).width * 0.054,
+      MediaQuery.sizeOf(context).width * 0.038,
     );
 
     if (letter == ' ') {
@@ -223,11 +223,11 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
             isLandscape
                 ? Row(
                   children: [
-                    Expanded(flex: 3, child: buildKeyboard(isLeft)),
+                    Expanded(flex: 9, child: buildKeyboard(isLeft)),
                     const VerticalDivider(width: 1, color: Colors.purple),
                     // Left Side: Text Input
                     Expanded(
-                      flex: 9,
+                      flex: 41,
                       child: Padding(
                         padding: const EdgeInsets.only(
                           bottom: 16.0,
@@ -309,7 +309,7 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
                   children: [
                     // Left Side: Text Input
                     Expanded(
-                      flex: 9,
+                      flex: 41,
                       child: Padding(
                         padding: const EdgeInsets.only(
                           bottom: 16.0,
@@ -360,7 +360,7 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
                     const VerticalDivider(width: 1, color: Colors.purple),
 
                     // Right Side: Keyboard
-                    Expanded(flex: 3, child: buildKeyboard(isLeft)),
+                    Expanded(flex: 9, child: buildKeyboard(isLeft)),
                   ],
                 )
                 : const Center(
@@ -401,9 +401,9 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
     if (isLeft) {
       columns = [
         ['.', ' ', ','],
-        ['⌫', 'm', 'n', 'b', 'v', 'c', 'x', 'z', '⇧'],
-        ['l', 'k', 'j', 'h', 'g', 'f', 'd', 's', 'a'],
-        ['p', 'o', 'i', 'u', 'y', 't', 'r', 'e', 'w', 'q'],
+        ['⌫', 'z', 'x', 'c', 'v', 'b', 'n', 'm', '⇧'],
+        ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
+        ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
       ];
     }
 
@@ -413,7 +413,12 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
           width: constraints.maxWidth,
           height: constraints.maxHeight,
           color: const Color.fromARGB(255, 242, 227, 245),
-          padding: EdgeInsets.only(bottom: 0.0, top: 30.0),
+          padding: EdgeInsets.only(
+            bottom: 0.0,
+            top:
+                (MediaQuery.sizeOf(context).height -
+                    MediaQuery.sizeOf(context).width * 0.4),
+          ),
 
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
