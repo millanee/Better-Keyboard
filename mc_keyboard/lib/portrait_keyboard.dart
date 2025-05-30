@@ -10,8 +10,8 @@ class PortraitTypingScreen extends StatefulWidget {
 }
 
 class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
-  final String practiceText = '.';
-  //'Thanks for your concern.Best of luck and stay in touch.Scotty and I will be in NYC.This seems fine to me.Just wanted to touch base.It is still going on, quite boring though.That would likely be an expensive option.The contract is a bit complicated.Apologize to Steve Dowd for me.Call me to give me a heads up.';
+  final String practiceText =
+      'Thanks for your concern.Best of luck and stay in touch.Scotty and I will be in NYC.This seems fine to me.Just wanted to touch base.It is still going on, quite boring though.That would likely be an expensive option.The contract is a bit complicated.Apologize to Steve Dowd for me.Call me to give me a heads up.';
   final String templateText =
       'You snooze you lose.We probably have to discuss trade behavior and margin.Very foggy this AM.I think we are doing OK.Tax gave us the same feedback.Please let me know if you learn anything at the floor meeting.I can review afterwards and get back to you tonight.I am on my way back there to do so.I would be glad to participate.We will sign tomorrow and fund Tuesday.It will probably be tomorrow.I have thirty minutes then.Please pass along my thanks, though.I think Tim wants to move quickly.What will happen to this project.';
 
