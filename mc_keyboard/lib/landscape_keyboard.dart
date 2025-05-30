@@ -127,10 +127,10 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
                 child: ListBody(
                   children: <Widget>[
                     Text(
-                      'Time tracked: ${endTime!.difference(startTime!).inSeconds} seconds',
+                      'Time tracked: ${endTime!.difference(startTime!).inMilliseconds / 1000} s',
                     ),
                     Text(
-                      'Avg time per char: ${double.parse(((endTime!.difference(startTime!).inMilliseconds) / templateText.length).toStringAsFixed(2))} ms',
+                      'Avg time per char: ${double.parse(((endTime!.difference(startTime!).inMilliseconds / 1000) / templateText.length).toStringAsFixed(4))} s',
                     ),
                     Text('Error count: $backspaceCount'),
                     Text(
@@ -173,10 +173,10 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
                 child: ListBody(
                   children: <Widget>[
                     Text(
-                      'Time tracked: ${endTime!.difference(startTime!).inMilliseconds} ms',
+                      'Time tracked: ${endTime!.difference(startTime!).inMilliseconds / 1000} s',
                     ),
                     Text(
-                      'Avg time per char: ${double.parse(((endTime!.difference(startTime!).inMilliseconds) / practiceText.length).toStringAsFixed(2))} ms',
+                      'Avg time per char: ${double.parse(((endTime!.difference(startTime!).inMilliseconds / 1000) / practiceText.length).toStringAsFixed(4))} s',
                     ),
                     Text('Error count: $backspaceCount'),
                     Text(
@@ -411,12 +411,21 @@ class _LandscapeTypingScreenState extends State<LandscapeTypingScreen> {
   }
 
   Widget buildKeyboard() {
-    const keys = [
+    var keys = [
       ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
       ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
       ['⇧', 'z', 'x', 'c', 'v', 'b', 'n', 'm', '⌫'],
       ['.', ' ', ','],
     ];
+
+    if (isLeft) {
+      keys = [
+        ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
+        ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
+        ['⇧', 'z', 'x', 'c', 'v', 'b', 'n', 'm', '⌫'],
+        [',', ' ', '.'],
+      ];
+    }
 
     return LayoutBuilder(
       builder: (context, constraints) {

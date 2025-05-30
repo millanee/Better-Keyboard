@@ -10,8 +10,8 @@ class PortraitTypingScreen extends StatefulWidget {
 }
 
 class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
-  final String practiceText =
-      'Thanks for your concern.Best of luck and stay in touch.Scotty and I will be in NYC.This seems fine to me.Just wanted to touch base.It is still going on, quite boring though.That would likely be an expensive option.The contract is a bit complicated.Apologize to Steve Dowd for me.Call me to give me a heads up.';
+  final String practiceText = '.';
+  //'Thanks for your concern.Best of luck and stay in touch.Scotty and I will be in NYC.This seems fine to me.Just wanted to touch base.It is still going on, quite boring though.That would likely be an expensive option.The contract is a bit complicated.Apologize to Steve Dowd for me.Call me to give me a heads up.';
   final String templateText =
       'You snooze you lose.We probably have to discuss trade behavior and margin.Very foggy this AM.I think we are doing OK.Tax gave us the same feedback.Please let me know if you learn anything at the floor meeting.I can review afterwards and get back to you tonight.I am on my way back there to do so.I would be glad to participate.We will sign tomorrow and fund Tuesday.It will probably be tomorrow.I have thirty minutes then.Please pass along my thanks, though.I think Tim wants to move quickly.What will happen to this project.';
 
@@ -129,10 +129,10 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
                 child: ListBody(
                   children: <Widget>[
                     Text(
-                      'Time tracked: ${endTime!.difference(startTime!).inSeconds} second',
+                      'Time tracked: ${endTime!.difference(startTime!).inMilliseconds / 1000} s',
                     ),
                     Text(
-                      'Avg time per char: ${double.parse(((endTime!.difference(startTime!).inMilliseconds) / templateText.length).toStringAsFixed(2))} ms',
+                      'Avg time per char: ${double.parse(((endTime!.difference(startTime!).inMilliseconds / 1000) / templateText.length).toStringAsFixed(4))} s',
                     ),
                     Text('Error count: $backspaceCount'),
                     Text(
@@ -175,10 +175,10 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
                 child: ListBody(
                   children: <Widget>[
                     Text(
-                      'Time tracked: ${endTime!.difference(startTime!).inMilliseconds} ms',
+                      'Time tracked: ${endTime!.difference(startTime!).inMilliseconds / 1000} s',
                     ),
                     Text(
-                      'Avg time per char: ${double.parse(((endTime!.difference(startTime!).inMilliseconds) / practiceText.length).toStringAsFixed(2))} ms',
+                      'Avg time per char: ${double.parse(((endTime!.difference(startTime!).inMilliseconds / 1000) / practiceText.length).toStringAsFixed(4))} s',
                     ),
                     Text('Error count: $backspaceCount'),
                     Text(
@@ -391,7 +391,7 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
   }
 
   Widget buildKeyboard(isLeft) {
-    var columns = [
+    var keys = [
       ['p', 'o', 'i', 'u', 'y', 't', 'r', 'e', 'w', 'q'],
       ['l', 'k', 'j', 'h', 'g', 'f', 'd', 's', 'a'],
       ['⌫', 'm', 'n', 'b', 'v', 'c', 'x', 'z', '⇧'],
@@ -399,7 +399,7 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
     ];
 
     if (isLeft) {
-      columns = [
+      keys = [
         ['.', ' ', ','],
         ['⌫', 'z', 'x', 'c', 'v', 'b', 'n', 'm', '⇧'],
         ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
@@ -423,7 +423,7 @@ class _PortraitTypingScreenState extends State<PortraitTypingScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children:
-                columns.map((column) {
+                keys.map((column) {
                   return SizedBox(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
