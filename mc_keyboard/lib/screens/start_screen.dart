@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mc_keyboard/landscape_keyboard.dart';
-import 'package:mc_keyboard/portrait_keyboard.dart';
+import 'package:mc_keyboard/screens/landscape_typing_screen.dart';
+import 'package:mc_keyboard/screens/portrait_typing_screen.dart';
 
 class StartScreen extends StatelessWidget {
   const StartScreen({super.key});
