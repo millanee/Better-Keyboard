@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mc_keyboard/start_screen.dart';
+import 'package:mc_keyboard/screens/start_screen.dart';
 //import 'package:google_fonts/google_fonts.dart';
 
 void main() {
