@@ -2,7 +2,7 @@
 
 **A Flutter-based mobile typing experiment designed for the course _Mobile Computing_ at the University of Copenhagen (UCPH).**
 
-This project explores custom keyboard layouts for portrait and landscape orientations on mobile devices.  
+This project explores custom keyboard layouts for one-handedclandscape orientations on mobile devices.  
 It focuses on user performance, ergonomics, and typing accuracy by tracking typing speed, error rate, and time per character across two different keyboard prototypes.
 
 ## How It Works
